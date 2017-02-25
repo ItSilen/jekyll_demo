@@ -9,10 +9,10 @@
 	#banner ul li{list-style-type: none;/*width: 160px;*/height: 360px;/*border: 1px solid #f00;*/float: left;position: relative;transform-style:perspective-3d;-webkit-transform-style: preserve-3d;/*子元素保留3d位置*/-webkit-transform:translateZ(-180px); /*单这样是不行的，只把li往前拉，还需要把6个面拉rotateX才会沿中心转，注意hover的translateZ*/}
 
 	#banner ul li div{list-style-type: none;/*width: 160px;*/height: 360px;/*border: 1px solid #f00;*/float: left;position: absolute;}
-	#banner ul li div:nth-child(1){bottom: 360px;transform-origin:bottom;/*原点*/transform:translateZ(180px) rotateX(90deg);/*transform:translateZ(180px);不能放这里,transform:里面的内容跟下面rotate冲突会覆盖掉*/background-image: url("images/1.jpg");}
-	#banner ul li div:nth-child(2){top: 360px;transform-origin:top;transform:translateZ(180px) rotateX(-90deg);background-image: url("images/2.jpg")}
-	#banner ul li div:nth-child(3){transform:translateZ(180px);background-image: url("images/3.jpg")}
-	#banner ul li div:nth-child(4){transform:translateZ(-180px) rotateX(180deg);/*防止图片倒立*/background-image: url("images/4.jpg")}
+	#banner ul li div:nth-child(1){bottom: 360px;transform-origin:bottom;/*原点*/transform:translateZ(180px) rotateX(90deg);/*transform:translateZ(180px);不能放这里,transform:里面的内容跟下面rotate冲突会覆盖掉*/background-image: url("https://raw.githubusercontent.com/ItSilen/onHtmlMode/gh-pages/images/1.jpg");}
+	#banner ul li div:nth-child(2){top: 360px;transform-origin:top;transform:translateZ(180px) rotateX(-90deg);background-image: url("https://raw.githubusercontent.com/ItSilen/onHtmlMode/gh-pages/images/2.jpg")}
+	#banner ul li div:nth-child(3){transform:translateZ(180px);background-image: url("https://raw.githubusercontent.com/ItSilen/onHtmlMode/gh-pages/images/3.jpg")}
+	#banner ul li div:nth-child(4){transform:translateZ(-180px) rotateX(180deg);/*防止图片倒立*/background-image: url("https://raw.githubusercontent.com/ItSilen/onHtmlMode/gh-pages/images/4.jpg")}
 
 /*	#banner ul li div:nth-child(5){width:360px;right: 160px;transform-origin:right;transform:translateZ(180px) rotateY(-90deg);}
 	#banner ul li div:nth-child(6){width:360px;left: 160px;transform-origin:left;transform:translateZ(180px) rotateY(90deg);}*/
