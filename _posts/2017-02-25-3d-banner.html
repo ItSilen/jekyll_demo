@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8/gbk">
+	<title>Document</title>
+	<style type="text/css" id="css">
+	*{margin: 0;padding: 0;}
+	#banner{width: 810px;height: 360px;/*background: #ffccff;*/margin: 400px auto;perspective:800px;/*视点*/position: relative;}
+	#banner ul li{list-style-type: none;/*width: 160px;*/height: 360px;/*border: 1px solid #f00;*/float: left;position: relative;transform-style:perspective-3d;-webkit-transform-style: preserve-3d;/*子元素保留3d位置*/-webkit-transform:translateZ(-180px); /*单这样是不行的，只把li往前拉，还需要把6个面拉rotateX才会沿中心转，注意hover的translateZ*/}
+
+	#banner ul li div{list-style-type: none;/*width: 160px;*/height: 360px;/*border: 1px solid #f00;*/float: left;position: absolute;}
+	#banner ul li div:nth-child(1){bottom: 360px;transform-origin:bottom;/*原点*/transform:translateZ(180px) rotateX(90deg);/*transform:translateZ(180px);不能放这里,transform:里面的内容跟下面rotate冲突会覆盖掉*/background-image: url("images/1.jpg");}
+	#banner ul li div:nth-child(2){top: 360px;transform-origin:top;transform:translateZ(180px) rotateX(-90deg);background-image: url("images/2.jpg")}
+	#banner ul li div:nth-child(3){transform:translateZ(180px);background-image: url("images/3.jpg")}
+	#banner ul li div:nth-child(4){transform:translateZ(-180px) rotateX(180deg);/*防止图片倒立*/background-image: url("images/4.jpg")}
+
+/*	#banner ul li div:nth-child(5){width:360px;right: 160px;transform-origin:right;transform:translateZ(180px) rotateY(-90deg);}
+	#banner ul li div:nth-child(6){width:360px;left: 160px;transform-origin:left;transform:translateZ(180px) rotateY(90deg);}*/
+	/*#banner:hover ul li{transform:translateZ(-180px) rotateX(180deg) ;-webkit-transform:translateZ(-180px)  rotateX(180deg) ;/*注意两个动作的顺序，如果先翻转等于翻过来甩出去位移再翻转，会往前翻很多*/
+
+/*	#banner ul li:nth-child(1) div{background-position: 0px;}/*图片拼合技术*/
+/*	#banner ul li:nth-child(2) div{background-position: -160px;}
+	#banner ul li:nth-child(3) div{background-position: -320px;}
+	#banner ul li:nth-child(4) div{background-position: -480px;}
+	#banner ul li:nth-child(5) div{background-position: -640px;}*/
+
+/*	#banner ul li:nth-child(1){transition:1s 0s;}
+	#banner ul li:nth-child(2){transition:1s .1s;}
+	#banner ul li:nth-child(3){transition:1s .2s;}
+	#banner ul li:nth-child(4){transition:1s .3s;}
+	#banner ul li:nth-child(5){transition:1s .4s;}*/
+
+	#banner ol {width: 120px;height: 18px;/*border:1px solid #f00;*/position: absolute;bottom: 10px;right: 10px;}
+	#banner ol li{list-style-type: none;width: 18px;height: 18px;background: #777;border-radius: 9px;color: #fff;font-size: 12px;text-align: center;line-height: 18px;font-family: "Microsoft yahei";float: left;margin: 0 5px;cursor: pointer;box-shadow: 2px 2px 5px #fff}
+	</style>
+	<script type="text/javascript">//纯js
+	window.onload = function(){
+		play(40);
+
+		function play(num){
+			var ol = document.getElementById("ol");
+			var ul = document.getElementById("ul");
+			var oLi = ol.getElementsByTagName("li");
+			var css = document.getElementById("css");//奇特
+			var wid = 800 / num;
+			var uLi = null;
+			var uHTML = "", pHTML = "", zHTML = "", z = 0, tHTML = "";	
+
+			for(var i=0;i<num;i++){
+				if(i>num/2){
+					z--;
+					zHTML += "#banner ul li:nth-child(" + (i+1) +"){z-index:" + z + ";}"//防止中间过后的li重叠覆盖前面的
+					
+				}
+				tHTML += "#banner ul li:nth-child(" + (i+1) +"){transition: 1s " + 0.5*i/num + "s;}"//动画时间控制,I/num最大的时候i=num也就是结果等于1,也就是说不管增加多少个li最大的时间永远是0.5*1=0.5s
+				uHTML += "<li><div></div><div></div><div></div><div></div></li>" //不能回车
+				pHTML +=  "#banner ul li:nth-child(" + (i+1) +") div{background-position:" + (-i*wid) + "px;}"
+				//li的背景图片拼合
+			}
+			ul.innerHTML = uHTML;
+			css.innerHTML += pHTML + zHTML + tHTML + "#banner ul li{width:" + wid + "px;}#banner ul li div{width:" + wid + "px;}"//css属性js控制
+
+			uLi = ul.getElementsByTagName("li");
+
+			for(var i=0;i<oLi.length;i++){
+				oLi[i].index = i;//自定义一个index属性
+				oLi[i].onclick = function(){
+					// alert("a")
+					// for(var j=0;j<uLi.length;j++){
+						// uLi[j].style.transform = "translateZ(-180px)  rotateX(" + this.index * 90 + "deg)";}//使每个按钮点击旋转的角度不一样,uLi是一个集合一定要有索引值[]，这里最好用上面的innerhtml方法，如下面
+						// js没有jquery的index()函数;
+					css.innerHTML += "#banner ul li{transform:translateZ(-180px) rotateX(" + this.index * 90 + "deg)}";
+					for(var k=0;k<oLi.length;k++){
+						k == this.index ? oLi[k].style.backgroundColor = '#f40' : oLi[k].style.backgroundColor = '#777';//按钮颜色控制
+					}
+				}
+			}
+		}
+	}
+	</script>
+</head>
+<body>
+	<div id="banner">
+		<ul id="ul">
+
+			<!-- <li>
+				组合长方体6个面
+				<div>上</div>
+				<div>下</div>
+				<div>前</div>
+				<div>后</div>
+				<div>左</div>
+				<div>右</div>
+			</li>
+			<li>
+				组合长方体6个面
+				<div>上</div>
+				<div>下</div>
+				<div>前</div>
+				<div>后</div>
+				<div>左</div>
+				<div>右</div>
+			</li>
+				<li>
+				组合长方体6个面
+				<div>上</div>
+				<div>下</div>
+				<div>前</div>
+				<div>后</div>
+				<div>左</div>
+				<div>右</div>
+			</li>
+
+			<li style="z-index:-1"> 不然重叠顺序比前面的高会覆盖透视
+				组合长方体6个面
+				<div>上</div>
+				<div>下</div>
+				<div>前</div>
+				<div>后</div>
+				<div>左</div>
+				<div>右</div>
+			</li>
+			<li style="z-index:-2">
+				组合长方体6个面
+				<div>上</div>
+				<div>下</div>
+				<div>前</div>
+				<div>后</div>
+				<div>左</div>
+				<div>右</div>
+			</li>  -->
+			
+		</ul>
+		<ol id="ol">
+				<li style="background-color:#f40">1</li>
+				<li>2</li>
+				<li>3</li>
+				<li>4</li>
+			</ol>
+	</div>
+</body>
+</html>
